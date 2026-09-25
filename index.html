@@ -31,6 +31,7 @@
       <a href="#traction">Team</a>
       <a href="#community">Community</a>
       <a href="#startups">For Startups</a>
+      <a href="#experts">Experts</a>
       <a href="#directory">Directory</a>
       <a href="#events">Events</a>
       <a href="#careers">Careers</a>
@@ -268,6 +269,25 @@
   </div>
 </section>
 
+<!-- ============ 7b. INVESTOR NETWORK ============ -->
+<section class="section" id="investors">
+  <div class="container">
+    <div class="section__head">
+      <h2>Connect With the Right Network</h2>
+      <p class="section__lede">CyphrWeb works with angel investors who back startups in the ecosystem. Here's how an investor introduction actually happens.</p>
+    </div>
+
+    <ol class="how-it-works">
+      <li class="reveal"><span class="how-it-works__num">01</span><div><h4>Build</h4><p>You work with CyphrWeb and build real traction — product, users or early revenue.</p></div></li>
+      <li class="reveal"><span class="how-it-works__num">02</span><div><h4>Get Reviewed</h4><p>Our team and mentors look at where your startup stands and whether it's ready for investor conversations.</p></div></li>
+      <li class="reveal"><span class="how-it-works__num">03</span><div><h4>Warm Introduction</h4><p>If there's a genuine fit, we introduce you to relevant angel investors in our network.</p></div></li>
+      <li class="reveal"><span class="how-it-works__num">04</span><div><h4>Your Conversation</h4><p>From there, the conversation and any decision to invest is between you and the investor.</p></div></li>
+    </ol>
+
+    <p class="fineprint investors-note">An introduction is a warm connection to the right people, not a promise — CyphrWeb does not guarantee funding or any specific outcome.</p>
+  </div>
+</section>
+
 <!-- ============ 8. WHO CAN WORK WITH CYPHRWEB ============ -->
 <section class="section">
   <div class="container">
@@ -282,6 +302,30 @@
       <div class="card"><h3>Revenue Stage</h3><p>You have customers and want to grow.</p></div>
       <div class="card"><h3>Scaling Stage</h3><p>You want to expand your business.</p></div>
       <div class="card"><h3>No Idea Yet</h3><p>You want to build something but haven't found the right idea yet.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 8b. MEET THE EXPERTS ============ -->
+<section class="section section--alt" id="experts">
+  <div class="container">
+    <div class="section__head">
+      <h2>Meet the Experts</h2>
+      <p class="section__lede">Experienced people across every function, ready to help CyphrWeb's startups where it matters most.</p>
+    </div>
+
+    <div class="grid-3">
+      <div class="card"><h3>Technology</h3><p>Architecture, product engineering and technical decisions.</p></div>
+      <div class="card"><h3>Marketing</h3><p>Positioning, growth channels and brand.</p></div>
+      <div class="card"><h3>Business</h3><p>Strategy, operations and business modeling.</p></div>
+      <div class="card"><h3>Product</h3><p>Product direction, UX and roadmap decisions.</p></div>
+      <div class="card"><h3>Finance</h3><p>Financial planning, fundraising basics and unit economics.</p></div>
+      <div class="card"><h3>Legal</h3><p>Compliance, contracts and early-stage legal questions.</p></div>
+      <div class="card"><h3>Industry</h3><p>Domain-specific guidance from people who've worked in your space.</p></div>
+    </div>
+
+    <div class="experts-cta reveal">
+      <a href="https://chat.whatsapp.com/FMRIkeHuOK45pKjLTabjZZ" target="_blank" rel="noopener" class="btn btn--primary">Apply as an Expert</a>
     </div>
   </div>
 </section>
@@ -304,7 +348,48 @@
 
     <div class="apply-cta reveal">
       <a href="https://chat.whatsapp.com/FMRIkeHuOK45pKjLTabjZZ" target="_blank" rel="noopener" class="btn btn--primary">Apply as a Startup</a>
-      <p class="fineprint">Applying starts a conversation in the community — no forms, no fees.</p>
+      <p class="fineprint">Applying starts a conversation in the community — no fees.</p>
+    </div>
+
+    <div class="apply-form-wrap">
+      <h3 class="apply-form__heading">Startup Application Form</h3>
+      <p class="section__lede">Prefer to share details upfront? Fill this in and we'll follow up in the community.</p>
+
+      <form class="apply-form" id="startupForm" novalidate>
+        <div class="form-row form-row--split">
+          <div>
+            <label for="sf-startup">Startup name</label>
+            <input type="text" id="sf-startup" name="startup" required>
+          </div>
+          <div>
+            <label for="sf-name">Your name</label>
+            <input type="text" id="sf-name" name="name" required autocomplete="name">
+          </div>
+        </div>
+        <div class="form-row">
+          <label for="sf-stage">Current stage</label>
+          <select id="sf-stage" name="stage" required>
+            <option value="" disabled selected>Select a stage</option>
+            <option>Idea Stage</option>
+            <option>Early Stage</option>
+            <option>MVP Stage</option>
+            <option>Revenue Stage</option>
+            <option>Scaling Stage</option>
+            <option>No Idea Yet</option>
+          </select>
+        </div>
+        <div class="form-row">
+          <label for="sf-pitch">One line about what you're building</label>
+          <textarea id="sf-pitch" name="pitch" rows="2" placeholder="Keep it high-level — no need to share full details here." maxlength="160" required></textarea>
+        </div>
+        <div class="form-row">
+          <label for="sf-contact">Contact (email or phone)</label>
+          <input type="text" id="sf-contact" name="contact" required>
+        </div>
+        <button type="submit" class="btn btn--primary">Submit Application</button>
+        <p class="form-note" id="startupFormNote" role="status"></p>
+        <p class="fineprint">Applications stay private to the CyphrWeb team — nothing here is shown publicly.</p>
+      </form>
     </div>
   </div>
 </section>
@@ -327,21 +412,54 @@
   </div>
 </section>
 
-<!-- ============ 11. EVENTS ============ -->
+<!-- ============ 11. EVENTS + OPPORTUNITIES ============ -->
 <section class="section section--alt" id="events">
   <div class="container">
     <div class="section__head">
-      <h2>Learn. Build. Participate.</h2>
-      <p class="section__lede">Everything happening across the CyphrWeb community. Tap an event for the full details.</p>
+      <h2>Events, Internships &amp; Opportunities</h2>
+      <p class="section__lede">Events, internships, hackathons, competitions and startup opportunities across the CyphrWeb community. Tap a card for the full details.</p>
+    </div>
+
+    <div class="events-filters" id="eventsFilters" role="tablist" aria-label="Filter opportunities">
+      <button class="events-filters__tab is-active" type="button" data-filter="all" role="tab" aria-selected="true">All</button>
+      <button class="events-filters__tab" type="button" data-filter="Event" role="tab" aria-selected="false">Events</button>
+      <button class="events-filters__tab" type="button" data-filter="Internship" role="tab" aria-selected="false">Internships</button>
+      <button class="events-filters__tab" type="button" data-filter="Hackathon" role="tab" aria-selected="false">Hackathons</button>
+      <button class="events-filters__tab" type="button" data-filter="Competition" role="tab" aria-selected="false">Competitions</button>
+      <button class="events-filters__tab" type="button" data-filter="Opportunity" role="tab" aria-selected="false">Startup Opportunities</button>
     </div>
 
     <div class="grid-3" id="eventsGrid"></div>
 
     <div class="portfolio-empty reveal" id="eventsEmpty">
-      <p>No events on the calendar right now.</p>
+      <p>Nothing in this category right now.</p>
       <p class="portfolio-empty__cta">Join the community to hear about the next one first.</p>
       <a href="https://chat.whatsapp.com/FMRIkeHuOK45pKjLTabjZZ" target="_blank" rel="noopener" class="btn btn--primary">Join Community</a>
     </div>
+  </div>
+</section>
+
+<!-- ============ 11b. GROWTH DASHBOARD (FUTURE) ============ -->
+<section class="section" id="dashboard-preview">
+  <div class="container">
+    <div class="section__head">
+      <h2>Startup Growth Dashboard</h2>
+      <span class="highlight">Coming soon — for partnered startups</span>
+      <p class="section__lede">Once you're partnered with CyphrWeb, a private login will give your team one place to track everything — not public on this website, built just for startups in the ecosystem.</p>
+    </div>
+
+    <ul class="tag-grid reveal" aria-label="Planned dashboard features">
+      <li>Current stage</li>
+      <li>Tasks</li>
+      <li>Milestones</li>
+      <li>Development progress</li>
+      <li>Marketing progress</li>
+      <li>Growth metrics</li>
+      <li>Expert sessions</li>
+      <li>Investor introductions</li>
+      <li>Documents</li>
+      <li>CyphrWeb support</li>
+    </ul>
   </div>
 </section>
 
@@ -354,6 +472,41 @@
     </div>
 
     <div class="grid-3" id="careersGrid"></div>
+
+    <div class="talent-form-wrap" id="talent">
+      <h3 class="apply-form__heading">Join CyphrWeb — Talent Registration</h3>
+      <p class="section__lede">Register independently as a Developer, Marketer, Designer or MBA Student and we'll match you to the right team.</p>
+
+      <div class="find-team__tabs talent-tabs" role="tablist" aria-label="Registration type">
+        <button class="find-team__tab is-active" type="button" data-role="Developer" role="tab" aria-selected="true">Developer</button>
+        <button class="find-team__tab" type="button" data-role="Marketer" role="tab" aria-selected="false">Marketer</button>
+        <button class="find-team__tab" type="button" data-role="Designer" role="tab" aria-selected="false">Designer</button>
+        <button class="find-team__tab" type="button" data-role="MBA Student" role="tab" aria-selected="false">MBA Student</button>
+      </div>
+
+      <form class="apply-form" id="talentForm" novalidate>
+        <div class="form-row form-row--split">
+          <div>
+            <label for="tl-name">Your name</label>
+            <input type="text" id="tl-name" name="name" required autocomplete="name">
+          </div>
+          <div>
+            <label for="tl-skills">Your skills / interest area</label>
+            <input type="text" id="tl-skills" name="skills" required>
+          </div>
+        </div>
+        <div class="form-row">
+          <label for="tl-pitch">A line about yourself</label>
+          <textarea id="tl-pitch" name="pitch" rows="2" maxlength="160"></textarea>
+        </div>
+        <div class="form-row">
+          <label for="tl-contact">Contact (email or phone)</label>
+          <input type="text" id="tl-contact" name="contact" required>
+        </div>
+        <button type="submit" class="btn btn--primary">Register</button>
+        <p class="form-note" id="talentFormNote" role="status"></p>
+      </form>
+    </div>
   </div>
 </section>
 
@@ -371,6 +524,38 @@
   <div class="container vision">
     <h2>Building the ecosystem behind tomorrow's startups.</h2>
     <p>CyphrWeb exists to connect the people, knowledge and opportunities that turn ideas into products, and products into companies. It's a long-term bet on community, collaboration, entrepreneurship, technology and growth — built one relationship at a time.</p>
+  </div>
+</section>
+
+<!-- ============ 14b. OUR IMPACT ============ -->
+<section class="section section--alt" id="impact">
+  <div class="container">
+    <div class="section__head">
+      <h2>CyphrWeb in numbers.</h2>
+    </div>
+
+    <div class="stat-grid impact-grid">
+      <div class="stat">
+        <span class="stat__num">300+</span>
+        <span class="stat__label">Community members</span>
+      </div>
+      <div class="stat">
+        <span class="stat__num">10+</span>
+        <span class="stat__label">Startups supported</span>
+      </div>
+      <div class="stat">
+        <span class="stat__num">20+</span>
+        <span class="stat__label">Experts</span>
+      </div>
+      <div class="stat">
+        <span class="stat__num">10+</span>
+        <span class="stat__label">Developers</span>
+      </div>
+      <div class="stat">
+        <span class="stat__num">2+</span>
+        <span class="stat__label">Events</span>
+      </div>
+    </div>
   </div>
 </section>
 
