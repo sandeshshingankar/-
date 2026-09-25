@@ -575,6 +575,18 @@ h2 { font-size: clamp(1.7rem, 3vw, 2.4rem); letter-spacing: -0.01em; }
 /* Vision */
 .vision { max-width: 720px; }
 .vision p { font-size: 1.05rem; max-width: none; }
+.vision__founders { display: flex; gap: 32px; margin-top: 28px; flex-wrap: wrap; }
+.vision__founder { display: flex; align-items: center; gap: 12px; }
+.vision__founder-photo {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid var(--border-strong);
+  background: var(--surface);
+}
+.vision__founder-name { font-family: var(--font-display); font-weight: 600; font-size: .95rem; margin: 0; color: var(--text); }
+.vision__founder-role { font-size: .82rem; color: var(--accent); margin: 0; }
 
 /* Final CTA */
 .final-cta { background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
