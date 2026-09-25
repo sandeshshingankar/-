@@ -3,6 +3,39 @@
    ========================================================= */
 
 /* ---------------------------------------------------------
+   FORM DELIVERY CONFIG
+   The site has no backend, so form submissions (Find a Team,
+   Startup Application, Talent Registration, Newsletter) are
+   saved to localStorage (device-only, as before) AND sent to
+   this email via FormSubmit — a free service that needs no
+   account, just an inbox.
+
+   SETUP (one-time, takes 2 minutes):
+   1. Replace the email below with a real CyphrWeb inbox.
+   2. Submit any form on the live site once — FormSubmit sends
+      that inbox a confirmation email with an "Activate" link.
+      Click it. After that, every future submission arrives by
+      email automatically — no code changes needed.
+   Until this is set up, submissions still work exactly as
+   before (saved on the visitor's device only).
+   --------------------------------------------------------- */
+const FORM_DELIVERY_EMAIL = 'your-email@example.com'; // <-- replace with your real inbox
+
+async function deliverFormSubmission(formName, entry) {
+  if (!FORM_DELIVERY_EMAIL || FORM_DELIVERY_EMAIL === 'your-email@example.com') return;
+  try {
+    await fetch(`https://formsubmit.co/ajax/${encodeURIComponent(FORM_DELIVERY_EMAIL)}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+      body: JSON.stringify({ _subject: `CyphrWeb website — ${formName}`, ...entry }),
+    });
+  } catch (err) {
+    /* Delivery failed (offline, blocked, etc.) — the localStorage copy still has the entry */
+    console.error('CyphrWeb: form delivery failed', err);
+  }
+}
+
+/* ---------------------------------------------------------
    DATA
    These arrays are the site's content for the directory,
    events and careers sections. Edit them directly to add,
@@ -67,6 +100,17 @@ const CAREERS = [
     title: "Growth & Marketing",
     blurb: "Grow CyphrWeb's reach — social, content and campus ambassadors.",
   },
+];
+
+// Add real testimonials as they come in. Leave empty until then —
+// no placeholder quotes are shown.
+const TESTIMONIALS = [
+  // Example shape (copy this to add a real entry):
+  // {
+  //   quote: "What they actually said, in their own words.",
+  //   name: "Person Name",
+  //   role: "Founder, Startup Name", // or "Mentor", "Community Member", etc.
+  // }
 ];
 
 // Short summary + fuller details for the "Not just an idea" section —
@@ -176,6 +220,7 @@ document.addEventListener('DOMContentLoaded', () => {
   safeRun(renderTraction);
   safeRun(renderOffers);
   safeRun(renderDirectory);
+  safeRun(renderTestimonials);
   safeRun(renderEvents);
   safeRun(initEventsFilters);
   safeRun(renderCareers);
@@ -184,6 +229,7 @@ document.addEventListener('DOMContentLoaded', () => {
   safeRun(initFindTeam);
   safeRun(initStartupForm);
   safeRun(initTalentForm);
+  safeRun(initNewsletter);
 });
 
 function safeRun(fn) {
@@ -415,6 +461,33 @@ function renderDirectory() {
 }
 
 /* ---------------------------------------------------------
+   Testimonials
+   --------------------------------------------------------- */
+function renderTestimonials() {
+  const grid = document.getElementById('testimonialsGrid');
+  const empty = document.getElementById('testimonialsEmpty');
+  if (!grid || !empty) return;
+
+  if (!TESTIMONIALS.length) {
+    grid.style.display = 'none';
+    empty.style.display = '';
+    return;
+  }
+
+  grid.style.display = '';
+  empty.style.display = 'none';
+
+  grid.innerHTML = TESTIMONIALS.map(
+    (t) => `
+    <div class="testimonial-card">
+      <p class="testimonial-card__quote">${escapeHtml(t.quote)}</p>
+      <span class="testimonial-card__name">${escapeHtml(t.name)}</span>
+      <span class="testimonial-card__role">${escapeHtml(t.role)}</span>
+    </div>`
+  ).join('');
+}
+
+/* ---------------------------------------------------------
    Events + Opportunities
    --------------------------------------------------------- */
 let currentEventFilter = 'all';
@@ -598,6 +671,7 @@ function initFindTeam() {
     }
 
     renderTeamList(list);
+    deliverFormSubmission('Find a Team', entry);
     form.reset();
     if (note) note.textContent = "You're on the list. Share it in the community so people can see it too.";
 
@@ -676,6 +750,7 @@ function initStartupForm() {
       /* localStorage unavailable — submission still proceeds below */
     }
 
+    deliverFormSubmission('Startup Application', entry);
     form.reset();
     if (note) note.textContent = "Application received. We'll follow up with you in the community.";
 
@@ -735,10 +810,46 @@ function initTalentForm() {
       /* localStorage unavailable — submission still proceeds below */
     }
 
+    deliverFormSubmission('Talent Registration', entry);
     form.reset();
     if (note) note.textContent = `Registered as ${currentRole}. We'll be in touch in the community.`;
 
     window.open('https://chat.whatsapp.com/FMRIkeHuOK45pKjLTabjZZ', '_blank', 'noopener');
+  });
+}
+
+/* ---------------------------------------------------------
+   Newsletter signup
+   --------------------------------------------------------- */
+const NEWSLETTER_STORAGE_KEY = 'cyphrweb_newsletter_signups';
+
+function initNewsletter() {
+  const form = document.getElementById('newsletterForm');
+  const note = document.getElementById('newsletterFormNote');
+  if (!form) return;
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const data = new FormData(form);
+    const entry = { email: (data.get('email') || '').toString().trim(), ts: Date.now() };
+
+    if (!entry.email) {
+      if (note) note.textContent = 'Please enter a valid email.';
+      return;
+    }
+
+    try {
+      const raw = localStorage.getItem(NEWSLETTER_STORAGE_KEY);
+      const list = raw ? JSON.parse(raw) : [];
+      list.unshift(entry);
+      localStorage.setItem(NEWSLETTER_STORAGE_KEY, JSON.stringify(list));
+    } catch (err) {
+      /* localStorage unavailable — submission still proceeds below */
+    }
+
+    deliverFormSubmission('Newsletter Signup', entry);
+    form.reset();
+    if (note) note.textContent = "You're subscribed — thanks!";
   });
 }
 
