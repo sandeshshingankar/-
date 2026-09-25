@@ -68,6 +68,29 @@ const CAREERS = [
   },
 ];
 
+// Short summary + fuller details for the "Not just an idea" section —
+// each card opens the same modal used elsewhere on the site.
+const TRACTION = [
+  {
+    title: "Startups & colleges",
+    summary: "10+ startups from colleges across India — 2 already generating revenue.",
+    details:
+      "Student teams have registered from colleges across India — including VIT Vellore, MIT and other reputed institutions. Of these, 2 startups are already generating revenue, with more building toward it.",
+  },
+  {
+    title: "The team behind it",
+    summary: "20+ expert mentors, a 10+ member developer team and a 5+ member marketing team.",
+    details:
+      "CyphrWeb is run with support from 20+ experienced professionals who mentor the community, including people from companies like Microsoft, BMW, Tata Motors and Capgemini. Alongside them, a 10+ member developer team and a 5+ member marketing team — students from our own college — help build and grow the startups on the platform.",
+  },
+  {
+    title: "Backing us",
+    summary: "5+ angel investors back startups registered with CyphrWeb.",
+    details:
+      "CyphrWeb works with 5+ angel investors who invest in the startups registered with CyphrWeb — helping founders access funding as they grow, not just mentorship and resources.",
+  },
+];
+
 const OFFERS = [
   {
     title: "Strategy",
@@ -149,6 +172,7 @@ document.addEventListener('DOMContentLoaded', () => {
   safeRun(initBackToTop);
   safeRun(buildNodeGraph);
 
+  safeRun(renderTraction);
   safeRun(renderOffers);
   safeRun(renderDirectory);
   safeRun(renderEvents);
@@ -276,6 +300,34 @@ function buildNodeGraph() {
       text.textContent = label;
       node.appendChild(text);
     }
+  });
+}
+
+/* ---------------------------------------------------------
+   Traction & team cards ("Not just an idea")
+   --------------------------------------------------------- */
+function renderTraction() {
+  const grid = document.getElementById('tractionGrid');
+  if (!grid) return;
+
+  grid.innerHTML = TRACTION.map(
+    (item, i) => `
+    <button class="traction-card" type="button" data-traction-index="${i}">
+      <h3>${escapeHtml(item.title)}</h3>
+      <p>${escapeHtml(item.summary)}</p>
+      <span class="offer-card__tap">Tap for the full picture →</span>
+    </button>`
+  ).join('');
+
+  grid.querySelectorAll('[data-traction-index]').forEach((card) => {
+    card.addEventListener('click', () => {
+      const item = TRACTION[Number(card.getAttribute('data-traction-index'))];
+      openModal(`
+        <span class="modal__badge">CyphrWeb today</span>
+        <h3>${escapeHtml(item.title)}</h3>
+        <p>${escapeHtml(item.details)}</p>
+      `);
+    });
   });
 }
 
