@@ -257,6 +257,19 @@ h2 { font-size: clamp(1.7rem, 3vw, 2.4rem); letter-spacing: -0.01em; }
 }
 .stat__label { font-size: .9rem; color: var(--text-muted); }
 .traction-detail { margin-top: 8px; }
+.traction-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  cursor: pointer;
+  text-align: left;
+  color: inherit;
+  padding: 22px 22px 24px;
+  transition: border-color .25s var(--ease), transform .25s var(--ease);
+}
+.traction-card:hover { border-color: var(--accent-line); transform: translateY(-3px); }
+.traction-card h3 { font-size: 1.1rem; }
+.traction-card p { margin: 0; font-size: .95rem; }
 .traction-founders { margin-top: 28px; }
 
 @media (max-width: 760px) {
