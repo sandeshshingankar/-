@@ -232,10 +232,11 @@ h2 { font-size: clamp(1.7rem, 3vw, 2.4rem); letter-spacing: -0.01em; }
 /* ---- Traction & team stats ---- */
 .stat-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
   gap: 20px;
   margin-bottom: 36px;
 }
+.impact-grid { margin-bottom: 0; }
 .stat {
   display: flex;
   flex-direction: column;
@@ -271,6 +272,34 @@ h2 { font-size: clamp(1.7rem, 3vw, 2.4rem); letter-spacing: -0.01em; }
 .traction-card h3 { font-size: 1.1rem; }
 .traction-card p { margin: 0; font-size: .95rem; }
 .traction-founders { margin-top: 28px; }
+
+/* ---- Startup Application Form (inside #apply) ---- */
+.apply-form-wrap { margin-top: 48px; padding-top: 40px; border-top: 1px solid var(--border); max-width: 560px; }
+.apply-form__heading { font-size: 1.2rem; margin-bottom: 8px; }
+
+/* ---- Investor Network note ---- */
+.investors-note { margin-top: 24px; }
+
+/* ---- Meet the Experts CTA ---- */
+.experts-cta { margin-top: 32px; }
+
+/* ---- Events + Opportunities filter tabs ---- */
+.events-filters { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 32px; }
+.events-filters__tab {
+  background: transparent;
+  border: 1px solid var(--border-strong);
+  color: var(--text-muted);
+  padding: .55em 1.1em;
+  border-radius: 999px;
+  font-size: .85rem;
+  cursor: pointer;
+  transition: border-color .2s var(--ease), color .2s var(--ease), background .2s var(--ease);
+}
+.events-filters__tab.is-active { border-color: var(--accent-line); background: var(--accent-soft); color: var(--text); }
+
+/* ---- Talent Registration (inside #careers) ---- */
+.talent-form-wrap { margin-top: 48px; padding-top: 40px; border-top: 1px solid var(--border); max-width: 560px; }
+.talent-tabs { flex-wrap: wrap; }
 
 @media (max-width: 760px) {
   .stat-grid { grid-template-columns: repeat(2, 1fr); }
@@ -354,11 +383,11 @@ h2 { font-size: clamp(1.7rem, 3vw, 2.4rem); letter-spacing: -0.01em; }
 }
 .find-team__tab.is-active { border-color: var(--accent-line); background: var(--accent-soft); color: var(--text); }
 
-.find-team__form { display: flex; flex-direction: column; gap: 16px; max-width: 480px; }
+.find-team__form, .apply-form { display: flex; flex-direction: column; gap: 16px; max-width: 480px; }
 .form-row { display: flex; flex-direction: column; gap: 6px; }
 .form-row--split { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 .form-row label { font-size: .85rem; color: var(--text-muted); }
-.form-row input, .form-row textarea {
+.form-row input, .form-row textarea, .form-row select {
   background: var(--surface);
   border: 1px solid var(--border-strong);
   border-radius: var(--radius-sm);
@@ -368,11 +397,11 @@ h2 { font-size: clamp(1.7rem, 3vw, 2.4rem); letter-spacing: -0.01em; }
   font-size: .95rem;
   resize: vertical;
 }
-.form-row input:focus, .form-row textarea:focus {
+.form-row input:focus, .form-row textarea:focus, .form-row select:focus {
   outline: none;
   border-color: var(--accent);
 }
-.find-team__form .btn { align-self: flex-start; margin-top: 4px; }
+.find-team__form .btn, .apply-form .btn { align-self: flex-start; margin-top: 4px; }
 .form-note { font-size: .85rem; color: var(--accent); min-height: 1.2em; margin: 0; }
 
 .find-team__listheading { font-size: 1.05rem; margin-bottom: 16px; }
