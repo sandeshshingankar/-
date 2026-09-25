@@ -31,6 +31,7 @@ const EVENTS = [
   // Example shape (copy this to add a real entry):
   // {
   //   title: "Event Name",
+  //   type: "Event", // one of: Event, Internship, Hackathon, Competition, Opportunity
   //   date: "TBA",
   //   mode: "In-person, Pune",
   //   badge: "Workshop",
@@ -176,10 +177,13 @@ document.addEventListener('DOMContentLoaded', () => {
   safeRun(renderOffers);
   safeRun(renderDirectory);
   safeRun(renderEvents);
+  safeRun(initEventsFilters);
   safeRun(renderCareers);
 
   safeRun(initModal);
   safeRun(initFindTeam);
+  safeRun(initStartupForm);
+  safeRun(initTalentForm);
 });
 
 function safeRun(fn) {
@@ -411,14 +415,19 @@ function renderDirectory() {
 }
 
 /* ---------------------------------------------------------
-   Events
+   Events + Opportunities
    --------------------------------------------------------- */
+let currentEventFilter = 'all';
+
 function renderEvents() {
   const grid = document.getElementById('eventsGrid');
   const empty = document.getElementById('eventsEmpty');
   if (!grid || !empty) return;
 
-  if (!EVENTS.length) {
+  const filtered =
+    currentEventFilter === 'all' ? EVENTS : EVENTS.filter((e) => e.type === currentEventFilter);
+
+  if (!filtered.length) {
     grid.style.display = 'none';
     empty.style.display = '';
     return;
@@ -427,9 +436,9 @@ function renderEvents() {
   grid.style.display = '';
   empty.style.display = 'none';
 
-  grid.innerHTML = EVENTS.map(
-    (e, i) => `
-    <button class="tile-card" type="button" data-event-index="${i}">
+  grid.innerHTML = filtered.map(
+    (e) => `
+    <button class="tile-card" type="button" data-event-index="${EVENTS.indexOf(e)}">
       <span class="tile-card__photo"><span class="tile-card__badge">${escapeHtml(e.badge)}</span></span>
       <span class="tile-card__body">
         <h3>${escapeHtml(e.title)}</h3>
@@ -452,6 +461,24 @@ function renderEvents() {
         <p>${escapeHtml(e.details)}</p>
         ${e.link ? `<a class="btn btn--primary" href="${e.link}" target="_blank" rel="noopener">${escapeHtml(e.linkLabel || 'Learn more')}</a>` : ''}
       `);
+    });
+  });
+}
+
+function initEventsFilters() {
+  const tabs = document.querySelectorAll('#eventsFilters .events-filters__tab');
+  if (!tabs.length) return;
+
+  tabs.forEach((tab) => {
+    tab.addEventListener('click', () => {
+      tabs.forEach((t) => {
+        t.classList.remove('is-active');
+        t.setAttribute('aria-selected', 'false');
+      });
+      tab.classList.add('is-active');
+      tab.setAttribute('aria-selected', 'true');
+      currentEventFilter = tab.getAttribute('data-filter');
+      renderEvents();
     });
   });
 }
@@ -611,6 +638,108 @@ function renderTeamList(preloaded) {
     </li>`
     )
     .join('');
+}
+
+/* ---------------------------------------------------------
+   Startup Application Form
+   --------------------------------------------------------- */
+const STARTUP_APP_STORAGE_KEY = 'cyphrweb_startup_applications';
+
+function initStartupForm() {
+  const form = document.getElementById('startupForm');
+  const note = document.getElementById('startupFormNote');
+  if (!form) return;
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const data = new FormData(form);
+    const entry = {
+      startup: (data.get('startup') || '').toString().trim(),
+      name: (data.get('name') || '').toString().trim(),
+      stage: (data.get('stage') || '').toString().trim(),
+      pitch: (data.get('pitch') || '').toString().trim(),
+      contact: (data.get('contact') || '').toString().trim(),
+      ts: Date.now(),
+    };
+
+    if (!entry.startup || !entry.name || !entry.stage || !entry.pitch || !entry.contact) {
+      if (note) note.textContent = 'Please fill in all required fields.';
+      return;
+    }
+
+    try {
+      const raw = localStorage.getItem(STARTUP_APP_STORAGE_KEY);
+      const list = raw ? JSON.parse(raw) : [];
+      list.unshift(entry);
+      localStorage.setItem(STARTUP_APP_STORAGE_KEY, JSON.stringify(list));
+    } catch (err) {
+      /* localStorage unavailable — submission still proceeds below */
+    }
+
+    form.reset();
+    if (note) note.textContent = "Application received. We'll follow up with you in the community.";
+
+    window.open('https://chat.whatsapp.com/FMRIkeHuOK45pKjLTabjZZ', '_blank', 'noopener');
+  });
+}
+
+/* ---------------------------------------------------------
+   Talent Registration (Developer / Marketer / Designer / MBA)
+   --------------------------------------------------------- */
+const TALENT_STORAGE_KEY = 'cyphrweb_talent_registrations';
+
+function initTalentForm() {
+  const tabs = document.querySelectorAll('.talent-tabs .find-team__tab');
+  const form = document.getElementById('talentForm');
+  const note = document.getElementById('talentFormNote');
+  let currentRole = 'Developer';
+
+  if (tabs.length) {
+    tabs.forEach((tab) => {
+      tab.addEventListener('click', () => {
+        tabs.forEach((t) => {
+          t.classList.remove('is-active');
+          t.setAttribute('aria-selected', 'false');
+        });
+        tab.classList.add('is-active');
+        tab.setAttribute('aria-selected', 'true');
+        currentRole = tab.getAttribute('data-role');
+      });
+    });
+  }
+
+  if (!form) return;
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const data = new FormData(form);
+    const entry = {
+      role: currentRole,
+      name: (data.get('name') || '').toString().trim(),
+      skills: (data.get('skills') || '').toString().trim(),
+      pitch: (data.get('pitch') || '').toString().trim(),
+      contact: (data.get('contact') || '').toString().trim(),
+      ts: Date.now(),
+    };
+
+    if (!entry.name || !entry.skills || !entry.contact) {
+      if (note) note.textContent = 'Please fill in all required fields.';
+      return;
+    }
+
+    try {
+      const raw = localStorage.getItem(TALENT_STORAGE_KEY);
+      const list = raw ? JSON.parse(raw) : [];
+      list.unshift(entry);
+      localStorage.setItem(TALENT_STORAGE_KEY, JSON.stringify(list));
+    } catch (err) {
+      /* localStorage unavailable — submission still proceeds below */
+    }
+
+    form.reset();
+    if (note) note.textContent = `Registered as ${currentRole}. We'll be in touch in the community.`;
+
+    window.open('https://chat.whatsapp.com/FMRIkeHuOK45pKjLTabjZZ', '_blank', 'noopener');
+  });
 }
 
 /* ---------------------------------------------------------
